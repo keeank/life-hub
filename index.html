@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Life Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EDF1F4;--sf:#fff;--ink:#14202B;--mut:#5B6B7A;--ln:#D5DDE4;--ac:#0F766E;--acs:#D6EEEB;--am:#B45F0F;--rd:#B4432B;--on:#fff;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F161C;--sf:#17212A;--ink:#E6EDF2;--mut:#93A3B1;--ln:#26333E;--ac:#3CC2B3;--acs:#16373A;--am:#F0A04B;--rd:#F08A70;--on:#0F161C;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0F161C;--sf:#17212A;--ink:#E6EDF2;--mut:#93A3B1;--ln:#26333E;--ac:#3CC2B3;--acs:#16373A;--am:#F0A04B;--rd:#F08A70;--on:#0F161C;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 'Bricolage Grotesque',system-ui,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:18px 16px 60px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px}
+h1{font-size:26px;margin:0;font-weight:700;letter-spacing:-.02em}
+h2{font-size:22px;margin:0;font-weight:700;letter-spacing:-.01em}
+h3{font-size:17px;margin:0;font-weight:700}
+.cur{display:flex;align-items:center;gap:6px;color:var(--mut);font-size:13px}
+.cur input{width:64px;padding:6px 8px}
+nav{display:flex;gap:6px;overflow-x:auto;padding:14px 0 10px;scrollbar-width:none}
+nav button{flex:none;border:1px solid var(--ln);background:var(--sf);color:var(--ink);padding:8px 14px;border-radius:99px;font:inherit;font-size:14px;cursor:pointer}
+nav button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.intro{color:var(--mut);margin:4px 0 16px;font-size:15px}
+.row{display:flex;gap:10px;align-items:center}.between{justify-content:space-between;flex-wrap:wrap}
+.nav{display:flex;align-items:center;gap:8px}
+.muted{color:var(--mut);font-size:14px;margin:6px 0 14px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:10px 12px;min-width:0}
+textarea{width:100%;resize:vertical}
+.add{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.add input{flex:1;min-width:120px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0}
+.grid .full{grid-column:1/-1}
+.btn{background:var(--ac);color:var(--on);border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:500;cursor:pointer}
+.ghost{background:transparent;color:var(--ac);border:1px solid var(--ln);border-radius:10px;padding:9px 14px;font:inherit;cursor:pointer}
+.sm{padding:7px 12px;font-size:14px}
+.ic{background:var(--sf);border:1px solid var(--ln);color:var(--ink);width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;line-height:1}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:16px;margin:12px 0}
+.list{list-style:none;margin:12px 0;padding:0;background:var(--sf);border:1px solid var(--ln);border-radius:14px}
+.list li{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--ln)}
+.list li:last-child{border-bottom:0}
+.list li span{flex:1;overflow-wrap:anywhere}
+.list li.done span{text-decoration:line-through;color:var(--mut)}
+.empty{color:var(--mut);justify-content:center}
+.chk{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--ac);background:transparent;cursor:pointer;padding:0;color:var(--on);font-size:14px}
+.done>.chk{background:var(--ac)}.done>.chk::after{content:"✓"}
+.x{background:none;border:0;color:var(--mut);font-size:22px;cursor:pointer;line-height:1;padding:2px 6px}
+.x:hover{color:var(--rd)}
+.bar{height:8px;background:var(--ln);border-radius:99px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:var(--ac);border-radius:99px}
+.bar.big{height:16px}
+.bar.out i{background:var(--am)}
+.badge{display:inline-block;font-size:12px;padding:2px 9px;border-radius:99px;background:var(--acs);color:var(--ac);margin-right:6px}
+.badge.w{background:transparent;border:1px solid var(--am);color:var(--am)}
+.days{display:flex;gap:6px;margin-top:10px}
+.dot{width:36px;height:36px;border-radius:50%;border:1px solid var(--ln);background:transparent;color:var(--mut);font:inherit;font-size:13px;cursor:pointer;padding:0}
+.dot.on{background:var(--ac);border-color:var(--ac);color:var(--on)}
+.dot.t{border-color:var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.stat{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px}
+.stat b{display:block;font-size:22px;letter-spacing:-.01em}
+.stat span{color:var(--mut);font-size:13px}
+.big-n{font-size:30px;font-weight:700;letter-spacing:-.02em}
+.pos{color:var(--ac)}.neg{color:var(--rd)}
+.next{width:100%;margin-top:10px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.cat{display:grid;grid-template-columns:110px 1fr auto;gap:10px;align-items:center;font-size:14px;margin:6px 0}
+.cat .bar{margin:0}
+.small{font-size:13px;color:var(--mut)}
+.tl{position:relative;height:50px;margin:16px 30px 6px}
+.tl::before{content:"";position:absolute;left:0;right:0;top:7px;height:4px;background:var(--ln);border-radius:4px}
+.tf{position:absolute;left:0;top:7px;height:4px;background:var(--ac);border-radius:4px}
+.tp{position:absolute;top:0;transform:translateX(-50%);text-align:center;font-size:12px;line-height:1.25;white-space:nowrap}
+.tp::before{content:"";display:block;width:14px;height:14px;border-radius:50%;background:var(--sf);border:2px solid var(--ln);margin:2px auto 4px}
+.tp.on::before{background:var(--ac);border-color:var(--ac)}
+.tp b{display:block;font-weight:500}.tp span{color:var(--mut)}
+.lb{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--mut)}
+.bar.two{display:flex}.bar.two i{border-radius:0}.pl{background:var(--ac);opacity:.45}
+details summary{cursor:pointer;margin-top:6px}
+@media(max-width:480px){h1{font-size:22px}.dot{width:32px;height:32px}}
+@media(prefers-reduced-motion:no-preference){.bar i{transition:width .3s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Life Hub</h1><label class="cur">Currency <input id="cur" data-c="cur" maxlength="4" aria-label="Currency code"></label></header>
+<nav id="nav" aria-label="Sections"></nav>
+<main id="main"></main>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S={cur:'KES',tasks:[],habits:[],projects:[],ideas:[],goals:[],invs:[],tx:[]};
+try{const r=localStorage.getItem('lifehub');if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem('lifehub',JSON.stringify(S))}catch(e){}};
+const uid=()=>Math.random().toString(36).slice(2,9);
+S.projects.forEach(p=>{if(!p.d)p.d=['','',p.due||'','']});S.ideas.forEach(i=>{if(!i.d)i.d=['','','','']});S.plans=S.plans||[];S.wk=S.wk||1800;
+const iso=d=>{const x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')};
+const today=()=>iso(new Date());
+const fmt=n=>S.cur+' '+Number(n||0).toLocaleString(undefined,{maximumFractionDigits:0});
+const find=(c,i)=>S[c].find(x=>x.id===i);
+const dl=(d,o)=>new Date(d+'T00:00').toLocaleDateString(undefined,o);
+const sum=(l,k)=>l.filter(t=>t.k===k).reduce((s,t)=>s+t.a,0);
+const pct=(a,b)=>b>0?Math.min(100,Math.round(a/b*100)):0;
+const ST=['Captured','Exploring','Acting','Done'];
+const TL=['Start','Execute','Deadline','End'];
+const dfs=(a=[])=>TL.map((l,i)=>`<label class="lb">${l}<input type="date" name="d${i}" value="${a[i]||''}"></label>`).join('');
+const dfe=(a,c,id)=>TL.map((l,i)=>`<label class="lb">${l}<input type="date" data-c="${c}" data-i="${id}" data-j="${i}" value="${a[i]||''}"></label>`).join('');
+function tl(d){const t=today(),pts=d.map((x,i)=>x?[i,x]:null).filter(Boolean);let f=0;
+ if(pts.length){if(t>=pts[pts.length-1][1])f=pts[pts.length-1][0];else if(t>pts[0][1]){for(let k=0;k<pts.length-1;k++){const [i,a]=pts[k],[j,b]=pts[k+1];if(t>=a&&t<b){f=i+(j-i)*((new Date(t)-new Date(a))/(new Date(b)-new Date(a)));break}}}}
+ return `<div class="tl"><div class="tf" style="width:${f/3*100}%"></div>${TL.map((l,i)=>`<div class="tp ${d[i]&&d[i]<=t?'on':''}" style="left:${i*100/3}%"><b>${l}</b><span>${d[i]?dl(d[i],{month:'short',day:'numeric'}):'Not set'}</span></div>`).join('')}</div>`}
+let tab='today',day=today(),mo=today().slice(0,7);
+const TABS=[['today','Today'],['habits','Habits'],['projects','Projects'],['ideas','Ideas'],['savings','Savings'],['invest','Investing'],['money','Money']];
+const INTRO={
+today:'Plan the day, then tick each task off as you finish it.',
+habits:'Tap a circle to mark a habit done for that day. Streaks count consecutive days.',
+projects:'Everything you are building, ordered by deadline, each with its own timeline from start to end.',
+ideas:'Capture an idea the moment it comes, give it a first step, then move it forward or turn it into a project.',
+savings:'Set goals, add or withdraw money, and see how much to save each month.',
+invest:'Plan the investments you want to start and log each contribution you make.',
+money:'Your weekly allowance, what you have spent, and what you have planned to buy, so nothing clashes.'};
+const V={
+today(){
+ const ts=S.tasks.filter(t=>t.date===day),dn=ts.filter(t=>t.done).length,p=pct(dn,ts.length);
+ const old=day===today()?S.tasks.filter(t=>t.date<day&&!t.done).length:0;
+ return `<div class="row between"><div class="nav"><button class="ic" data-a="dayN" data-i="-1" aria-label="Previous day">‹</button><h2>${dl(day,{weekday:'long',month:'long',day:'numeric'})}</h2><button class="ic" data-a="dayN" data-i="1" aria-label="Next day">›</button></div>${day!==today()?'<button class="ghost sm" data-a="dayT">Back to today</button>':''}</div>
+ <div class="bar big" style="margin-top:16px"><i style="width:${p}%"></i></div><p class="muted">${dn} of ${ts.length} done (${p}%)</p>
+ <form data-f="task" class="add"><input name="t" placeholder="What needs doing?" required autocomplete="off"><button class="btn">Add task</button></form>
+ ${old?`<button class="ghost sm" data-a="carry">Bring over ${old} unfinished from earlier days</button>`:''}
+ <ul class="list">${ts.map(t=>`<li class="${t.done?'done':''}"><button class="chk" data-a="tog" data-i="${t.id}" aria-label="Mark done"></button><span>${esc(t.t)}</span><button class="x" data-a="del" data-i="tasks:${t.id}" aria-label="Delete task">×</button></li>`).join('')||'<li class="empty">Nothing planned for this day. Add your first task above.</li>'}</ul>`;
+},
+habits(){
+ const days=[...Array(7)].map((_,k)=>{const d=new Date();d.setDate(d.getDate()-6+k);return iso(d)});
+ return `<form data-f="habit" class="add"><input name="n" placeholder="New habit, e.g. Read 20 minutes" required autocomplete="off"><button class="btn">Add habit</button></form>`+
+ (S.habits.map(h=>{
+  const set=new Set(h.log);let s=0;const d=new Date();if(!set.has(iso(d)))d.setDate(d.getDate()-1);
+  while(set.has(iso(d))){s++;d.setDate(d.getDate()-1)}
+  let c=0;for(let k=0;k<30;k++){const e=new Date();e.setDate(e.getDate()-k);if(set.has(iso(e)))c++}
+  return `<div class="card"><div class="row between"><h3>${esc(h.n)}</h3><button class="x" data-a="del" data-i="habits:${h.id}" aria-label="Delete habit">×</button></div>
+  <p class="small" style="margin:4px 0 0">Streak: ${s} day${s===1?'':'s'}. Last 30 days: ${c} done (${pct(c,30)}%).</p>
+  <div class="days">${days.map(x=>`<button class="dot ${set.has(x)?'on':''} ${x===today()?'t':''}" data-a="hab" data-i="${h.id}" data-j="${x}" aria-label="${dl(x,{weekday:'long',month:'short',day:'numeric'})}">${dl(x,{weekday:'narrow'})}</button>`).join('')}</div></div>`}).join('')||'<p class="muted">No habits yet. Add one above and start a streak today.</p>');
+},
+projects(){
+ const P={High:0,Medium:1,Low:2};
+ const L=[...S.projects].sort((a,b)=>((a.status==='Done')-(b.status==='Done'))||((a.d[2]||a.d.find(Boolean)||'9999').localeCompare(b.d[2]||b.d.find(Boolean)||'9999')));
+ return `<form data-f="project" class="card"><div class="grid"><input class="full" name="n" placeholder="Project name" required autocomplete="off">${dfs()}<button class="btn">Add project</button></div></form>`+
+ (L.map(p=>{const dn=p.steps.filter(s=>s.done).length,pc=pct(dn,p.steps.length);
+  return `<div class="card"><div class="row between"><div><h3>${esc(p.n)}</h3></div>
+  <div class="row"><select data-c="pstat" data-i="${p.id}" aria-label="Status">${['Planning','Active','Paused','Done'].map(s=>`<option ${s===p.status?'selected':''}>${s}</option>`).join('')}</select><button class="x" data-a="del" data-i="projects:${p.id}" aria-label="Delete project">×</button></div></div>
+  <div class="bar"><i style="width:${pc}%"></i></div><p class="small" style="margin:0">${dn} of ${p.steps.length} steps done</p>${tl(p.d)}<details data-k="p${p.id}"><summary class="small">Edit timeline dates</summary><div class="grid">${dfe(p.d,'pdate',p.id)}</div></details>
+  <ul class="list" style="margin:10px 0 0">${p.steps.map(s=>`<li class="${s.done?'done':''}"><button class="chk" data-a="stp" data-i="${p.id}" data-j="${s.id}" aria-label="Mark step done"></button><span>${esc(s.t)}</span><button class="x" data-a="stpd" data-i="${p.id}" data-j="${s.id}" aria-label="Delete step">×</button></li>`).join('')||'<li class="empty small">No steps yet.</li>'}</ul>
+  <form data-f="step" data-i="${p.id}" class="add"><input name="t" placeholder="Add a step" required autocomplete="off"><button class="btn sm">Add step</button></form></div>`}).join('')||'<p class="muted">No projects yet. Add one above, or turn an idea into a project.</p>');
+},
+ideas(){
+ return `<form data-f="idea" class="card"><div class="grid"><input class="full" name="t" placeholder="Your idea in a few words" required autocomplete="off"><textarea class="full" name="n" rows="2" placeholder="Details: what is it, who is it for, why now?"></textarea>${dfs()}<select name="h" aria-label="When"><option>Now</option><option>Later</option></select><button class="btn">Save idea</button></div></form>`+
+ (ST.map(st=>{const l=S.ideas.filter(i=>i.s===st);if(!l.length)return'';
+  return `<h3 style="margin:20px 0 4px">${st} (${l.length})</h3>`+l.map(i=>`<div class="card"><div class="row between"><div><h3>${esc(i.t)}</h3><span class="badge ${i.h==='Now'?'':'w'}">${i.h==='Now'?'Do now':'Do later'}</span></div><button class="x" data-a="del" data-i="ideas:${i.id}" aria-label="Delete idea">×</button></div>
+  ${i.n?`<p style="margin:8px 0 0">${esc(i.n)}</p>`:''}
+  ${tl(i.d)}<details data-k="i${i.id}"><summary class="small">Edit timeline dates</summary><div class="grid">${dfe(i.d,'idate',i.id)}</div></details><input class="next" data-c="next" data-i="${i.id}" value="${esc(i.next)}" placeholder="First step: what is the smallest action you can take?">
+  <div class="tools">${i.s!=='Done'?`<button class="ghost sm" data-a="adv" data-i="${i.id}">Move to ${ST[ST.indexOf(i.s)+1]}</button>`:''}${i.pid?'<span class="small">Linked to a project</span>':`<button class="btn sm" data-a="toProj" data-i="${i.id}">Turn into project</button>`}</div></div>`).join('')}).join('')||'<p class="muted">No ideas yet. Capture the first one above before it slips away.</p>');
+},
+savings(){
+ const tot=S.goals.reduce((s,g)=>s+g.saved,0);
+ return `<div class="stats"><div class="stat"><span>Total saved</span><b>${fmt(tot)}</b></div><div class="stat"><span>Goals</span><b>${S.goals.length}</b></div></div>
+ <form data-f="goal" class="card"><div class="grid"><input class="full" name="n" placeholder="What are you saving for?" required autocomplete="off"><input name="t" type="number" min="1" step="any" placeholder="Target amount" required><input name="d" type="date" aria-label="Target date"><button class="btn">Add goal</button></div></form>`+
+ (S.goals.map(g=>{let hint='';
+  if(g.due&&g.saved<g.target){const days=(new Date(g.due+'T00:00')-new Date())/864e5;hint=days<0?'The target date has passed.':`Save about ${fmt((g.target-g.saved)/Math.max(1,Math.ceil(days/30)))} a month to reach it by ${dl(g.due,{month:'short',day:'numeric',year:'numeric'})}.`}
+  else if(g.saved>=g.target)hint='Goal reached.';
+  return `<div class="card"><div class="row between"><h3>${esc(g.n)}</h3><button class="x" data-a="del" data-i="goals:${g.id}" aria-label="Delete goal">×</button></div>
+  <div class="big-n">${fmt(g.saved)} <span class="small">of ${fmt(g.target)}</span></div><div class="bar"><i style="width:${pct(g.saved,g.target)}%"></i></div><p class="small" style="margin:0">${pct(g.saved,g.target)}% saved. ${hint}</p>
+  <form data-f="dep" data-i="${g.id}" class="add"><input name="a" type="number" min="0" step="any" placeholder="Amount" required><button class="btn sm" value="in">Add money</button><button class="ghost sm" value="out">Withdraw</button></form>
+  ${g.log.slice(0,3).map(l=>`<div class="small">${dl(l.d,{month:'short',day:'numeric'})}: ${l.a>0?'+':'−'}${fmt(Math.abs(l.a))}</div>`).join('')}</div>`}).join('')||'<p class="muted">No savings goals yet. Add one above, for example an emergency fund.</p>');
+},
+invest(){
+ const mt=S.invs.reduce((s,i)=>s+i.m,0),pd=S.invs.reduce((s,i)=>s+i.paid,0);
+ return `<div class="stats"><div class="stat"><span>Planned each month</span><b>${fmt(mt)}</b></div><div class="stat"><span>Contributed so far</span><b>${fmt(pd)}</b></div></div>
+ <form data-f="inv" class="card"><div class="grid"><input class="full" name="n" placeholder="Investment name, e.g. Money market fund" required autocomplete="off"><select name="k" aria-label="Type"><option>Money market fund</option><option>Stocks or ETF</option><option>SACCO</option><option>Bonds</option><option>Real estate</option><option>Business</option><option>Other</option></select><input name="m" type="number" min="0" step="any" placeholder="Monthly amount" required><input name="s" type="date" aria-label="Start date" required><input name="r" type="number" min="0" step="any" placeholder="Expected yearly return %"><button class="btn">Add plan</button></div></form>`+
+ (S.invs.map(i=>{const r=i.r/1200,fv=r>0?i.m*((1+r)**60-1)/r:i.m*60;const act=i.s<=today();
+  return `<div class="card"><div class="row between"><div><h3>${esc(i.n)}</h3><span class="badge ${act?'':'w'}">${act?'Active':'Starts '+dl(i.s,{month:'short',day:'numeric',year:'numeric'})}</span><span class="small">${esc(i.k)}</span></div><button class="x" data-a="del" data-i="invs:${i.id}" aria-label="Delete plan">×</button></div>
+  <p style="margin:10px 0 0">${fmt(i.m)} a month. Contributed so far: <b>${fmt(i.paid)}</b>.</p>
+  <p class="small" style="margin:4px 0 0">After 5 years of steady contributions${i.r?` at ${i.r}% a year`:''}: about ${fmt(fv)}. Real returns vary.</p>
+  <form data-f="contrib" data-i="${i.id}" class="add"><input name="a" type="number" min="0" step="any" placeholder="Amount invested" required><button class="btn sm">Log contribution</button></form></div>`}).join('')||'<p class="muted">No investment plans yet. Add what you plan to start, even if it begins next month.</p>');
+},
+money(){
+ const m=S.tx.filter(t=>t.d.startsWith(mo)).sort((a,b)=>b.d.localeCompare(a.d)),inc=sum(m,'in'),out=sum(m,'out'),bal=sum(S.tx,'in')-sum(S.tx,'out');
+ const cats={};m.filter(t=>t.k==='out').forEach(t=>cats[t.c]=(cats[t.c]||0)+t.a);
+ const ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]),mx=ce[0]?ce[0][1]:1;
+ return `<div class="row between"><div class="nav"><button class="ic" data-a="monN" data-i="-1" aria-label="Previous month">‹</button><h2>${dl(mo+'-01',{month:'long',year:'numeric'})}</h2><button class="ic" data-a="monN" data-i="1" aria-label="Next month">›</button></div></div>
+ <div class="stats"><div class="stat"><span>Money in</span><b class="pos">${fmt(inc)}</b></div><div class="stat"><span>Money out</span><b class="neg">${fmt(out)}</b></div><div class="stat"><span>Left this month</span><b>${fmt(inc-out)}</b></div><div class="stat"><span>Overall balance</span><b>${fmt(bal)}</b></div></div>
+ <form data-f="tx" class="card"><div class="grid"><select name="k" aria-label="Type"><option value="out">Money out</option><option value="in">Money in</option></select><input name="a" type="number" min="0" step="any" placeholder="Amount" required><input name="c" list="cats" placeholder="Category" autocomplete="off"><input name="d" type="date" value="${today()}" required aria-label="Date"><input class="full" name="n" placeholder="Note (optional)" autocomplete="off"><button class="btn full">Record</button></div>
+ <datalist id="cats"><option>Food</option><option>Transport</option><option>Rent</option><option>Airtime and data</option><option>Bills</option><option>Family</option><option>Fun</option><option>Health</option><option>Salary</option><option>Business</option><option>Other</option></datalist></form>
+ ${ce.length?`<div class="card"><h3>Where it went</h3>${ce.map(([c,v])=>`<div class="cat"><span>${esc(c)}</span><div class="bar out"><i style="width:${pct(v,mx)}%"></i></div><b>${fmt(v)}</b></div>`).join('')}</div>`:''}
+ <ul class="list">${m.map(t=>`<li><span>${esc(t.c)}${t.n?' - '+esc(t.n):''}<br><small class="small">${dl(t.d,{weekday:'short',month:'short',day:'numeric'})}</small></span><b class="${t.k==='in'?'pos':'neg'}">${t.k==='in'?'+':'−'}${fmt(t.a)}</b><button class="x" data-a="del" data-i="tx:${t.id}" aria-label="Delete entry">×</button></li>`).join('')||'<li class="empty">No entries this month yet.</li>'}</ul>`;
+}};
+const mon=d=>{const x=new Date(d+'T00:00');x.setDate(x.getDate()-((x.getDay()+6)%7));return iso(x)};
+const addD=(d,n)=>{const x=new Date(d+'T00:00');x.setDate(x.getDate()+n);return iso(x)};
+let wk=mon(today());
+V.money=function(){
+ const t0=today(),end=addD(wk,6),m=S.tx.filter(t=>t.d>=wk&&t.d<=end).sort((a,b)=>b.d.localeCompare(a.d));
+ const inc=sum(m,'in'),out=sum(m,'out'),avail=S.wk+inc,left=avail-out,pl=S.plans.filter(p=>p.wk===wk),pt=pl.reduce((s,p)=>s+p.a,0),free=left-pt;
+ const cats={};m.filter(t=>t.k==='out').forEach(t=>cats[t.c]=(cats[t.c]||0)+t.a);
+ const ce=Object.entries(cats).sort((a,b)=>b[1]-a[1]),mx=ce[0]?ce[0][1]:1,sp=pct(out,avail),pp=Math.min(100-sp,pct(pt,avail));
+ return `<div class="row between"><div class="nav"><button class="ic" data-a="wkN" data-i="-1" aria-label="Previous week">‹</button><h2>${dl(wk,{month:'short',day:'numeric'})} to ${dl(end,{month:'short',day:'numeric'})}</h2><button class="ic" data-a="wkN" data-i="1" aria-label="Next week">›</button></div>${wk!==mon(t0)?'<button class="ghost sm" data-a="wkT">This week</button>':''}</div>
+ <div class="card"><span class="small">Free to spend this week, after planned purchases</span><div class="big-n ${free<0?'neg':'pos'}">${fmt(free)}</div><div class="bar two"><i style="width:${sp}%;background:var(--am)"></i><i class="pl" style="width:${pp}%"></i></div>${free<0?`<p class="neg" style="margin:0">Your plans are ${fmt(-free)} more than you have left this week.</p>`:''}
+ <div class="tools"><label class="lb">Weekly allowance<input type="number" min="0" data-c="wkb" value="${S.wk}"></label><span class="small">About ${fmt(S.wk*4)} a month.</span></div></div>
+ <div class="stats"><div class="stat"><span>Available (allowance${inc?' plus extra':''})</span><b>${fmt(avail)}</b></div><div class="stat"><span>Spent</span><b class="neg">${fmt(out)}</b></div><div class="stat"><span>Planned</span><b>${fmt(pt)}</b></div><div class="stat"><span>Left after spending</span><b>${fmt(left)}</b></div></div>
+ <h3 style="margin:18px 0 4px">Planned purchases</h3>
+ <form data-f="plan" class="add"><input name="n" placeholder="What are you planning to buy or do?" required autocomplete="off"><input name="a" type="number" min="0" step="any" placeholder="Cost" required style="max-width:110px"><input name="c" list="cats" placeholder="Category" autocomplete="off" style="max-width:140px"><button class="btn">Plan it</button></form>
+ <ul class="list">${pl.map(p=>`<li><span>${esc(p.n)}<br><small class="small">${esc(p.c)}</small></span><b>${fmt(p.a)}</b><button class="ghost sm" data-a="buy" data-i="${p.id}">Bought it</button><button class="x" data-a="del" data-i="plans:${p.id}" aria-label="Delete plan">×</button></li>`).join('')||'<li class="empty">Nothing planned for this week.</li>'}</ul>
+ <h3 style="margin:18px 0 4px">Record spending</h3>
+ <form data-f="tx" class="card" style="margin-top:8px"><div class="grid"><select name="k" aria-label="Type"><option value="out">Money out</option><option value="in">Extra money in</option></select><input name="a" type="number" min="0" step="any" placeholder="Amount" required><input name="c" list="cats" placeholder="Category" autocomplete="off"><input name="d" type="date" value="${t0>=wk&&t0<=end?t0:wk}" required aria-label="Date"><input class="full" name="n" placeholder="Note (optional)" autocomplete="off"><button class="btn full">Record</button></div>
+ <datalist id="cats"><option>Food</option><option>Transport</option><option>Airtime and data</option><option>Clothes and shoes</option><option>School</option><option>Fun</option><option>Health</option><option>Savings</option><option>Other</option></datalist></form>
+ ${ce.length?`<div class="card"><h3>Where it went</h3>${ce.map(([c,v])=>`<div class="cat"><span>${esc(c)}</span><div class="bar out"><i style="width:${pct(v,mx)}%"></i></div><b>${fmt(v)}</b></div>`).join('')}</div>`:''}
+ <ul class="list">${m.map(t=>`<li><span>${esc(t.c)}${t.n?' - '+esc(t.n):''}<br><small class="small">${dl(t.d,{weekday:'short',month:'short',day:'numeric'})}</small></span><b class="${t.k==='in'?'pos':'neg'}">${t.k==='in'?'+':'−'}${fmt(t.a)}</b><button class="x" data-a="del" data-i="tx:${t.id}" aria-label="Delete entry">×</button></li>`).join('')||'<li class="empty">No entries this week yet.</li>'}</ul>`;
+};
+const A={
+wkN:i=>{wk=addD(wk,7*+i)},
+wkT:()=>{wk=mon(today())},
+buy:i=>{const p=find('plans',i),t=today(),e=addD(wk,6);S.tx.push({id:uid(),k:'out',a:p.a,c:p.c,n:p.n,d:t>=wk&&t<=e?t:wk});S.plans=S.plans.filter(x=>x.id!==i)},
+dayN:i=>{const d=new Date(day+'T00:00');d.setDate(d.getDate()+ +i);day=iso(d)},
+dayT:()=>{day=today()},
+monN:i=>{const [y,m]=mo.split('-').map(Number);mo=iso(new Date(y,m-1+ +i,1)).slice(0,7)},
+tab:i=>{tab=i},
+tog:i=>{const t=find('tasks',i);t.done=!t.done},
+carry:()=>{S.tasks.forEach(t=>{if(t.date<day&&!t.done)t.date=day})},
+del:i=>{const [c,id]=i.split(':');S[c]=S[c].filter(x=>x.id!==id)},
+hab:(i,j)=>{const h=find('habits',i);h.log=h.log.includes(j)?h.log.filter(x=>x!==j):[...h.log,j]},
+stp:(i,j)=>{const s=find('projects',i).steps.find(x=>x.id===j);s.done=!s.done},
+stpd:(i,j)=>{const p=find('projects',i);p.steps=p.steps.filter(x=>x.id!==j)},
+adv:i=>{const d=find('ideas',i);d.s=ST[Math.min(3,ST.indexOf(d.s)+1)]},
+toProj:i=>{const d=find('ideas',i),id=uid();S.projects.push({id,n:d.t,status:'Planning',d:[...d.d],steps:d.next?[{id:uid(),t:d.next,done:false}]:[]});d.pid=id;if(d.s==='Captured'||d.s==='Exploring')d.s='Acting'}
+};
+const C={
+wkb:el=>{S.wk=Math.max(0,+el.value||0)},
+cur:el=>{S.cur=(el.value.trim()||'KES').toUpperCase()},
+pstat:el=>{find('projects',el.dataset.i).status=el.value},
+next:el=>{find('ideas',el.dataset.i).next=el.value.trim()},
+pdate:el=>{find('projects',el.dataset.i).d[+el.dataset.j]=el.value},
+idate:el=>{find('ideas',el.dataset.i).d[+el.dataset.j]=el.value}
+};
+const F={
+plan:v=>S.plans.push({id:uid(),n:v.n.trim(),a:Math.abs(+v.a),c:(v.c||'').trim()||'Other',wk}),
+task:v=>S.tasks.push({id:uid(),t:v.t.trim(),done:false,date:day}),
+habit:v=>S.habits.push({id:uid(),n:v.n.trim(),log:[]}),
+project:v=>S.projects.push({id:uid(),n:v.n.trim(),status:'Planning',d:[v.d0,v.d1,v.d2,v.d3],steps:[]}),
+step:(v,i)=>find('projects',i).steps.push({id:uid(),t:v.t.trim(),done:false}),
+idea:v=>S.ideas.unshift({id:uid(),t:v.t.trim(),n:v.n.trim(),h:v.h,s:'Captured',next:'',d:[v.d0,v.d1,v.d2,v.d3]}),
+goal:v=>S.goals.push({id:uid(),n:v.n.trim(),target:+v.t,saved:0,due:v.d,log:[]}),
+dep:(v,i,k)=>{const g=find('goals',i),a=(k==='out'?-1:1)*Math.abs(+v.a);g.saved=Math.max(0,g.saved+a);g.log.unshift({d:today(),a})},
+inv:v=>S.invs.push({id:uid(),n:v.n.trim(),k:v.k,m:+v.m,s:v.s,r:+v.r||0,paid:0}),
+contrib:(v,i)=>{find('invs',i).paid+=Math.abs(+v.a)},
+tx:v=>{S.tx.push({id:uid(),k:v.k,a:Math.abs(+v.a),c:(v.c||'').trim()||'Other',n:v.n.trim(),d:v.d});wk=mon(v.d)}
+};
+function render(){
+ $('#nav').innerHTML=TABS.map(([k,l])=>`<button class="${k===tab?'on':''}" data-a="tab" data-i="${k}">${l}</button>`).join('');
+ $('#cur').value=S.cur;
+ $('#main').innerHTML=`<p class="intro">${INTRO[tab]}</p>`+V[tab]();
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;e.preventDefault();A[b.dataset.a](b.dataset.i,b.dataset.j);save();render()});
+document.addEventListener('change',e=>{const c=e.target.dataset.c;if(!c)return;C[c](e.target);save();render()});
+document.addEventListener('submit',e=>{e.preventDefault();const f=e.target;F[f.dataset.f](Object.fromEntries(new FormData(f)),f.dataset.i,e.submitter&&e.submitter.value);save();render();if(tab==='today'){const i=$('#main input[name="t"]');if(i)i.focus()}});
+render();
+</script>
+</body>
+</html>
